@@ -12,7 +12,6 @@ export class Main {
     }
 
     async downloadPicture(url: string, fileName: string) {
-        console.log(url)
         const responseRaw = await fetch(url, { method: "GET" });
         const blob = await responseRaw.blob();
         const buffer = Buffer.from(await blob.arrayBuffer());
@@ -30,8 +29,6 @@ export class Main {
             console.log(`${phone}, ${JSON.stringify(e)}`);
             return;
         }
-
-        console.log(profile)
         if (!profile.icon_full) {
             console.log(`Profile picture don't get for profile ${phone}.`)
         }
@@ -55,6 +52,7 @@ export class Main {
             this.usedChannels.map(token => this.notUsedChannels.push(token));
             this.usedChannels = []
         }
+        if(this.notUsedChannels.length === 0) throw "No working tokens left"
         // get random channel
         const randomIndex = this.randomIntFromInterval(0, this.notUsedChannels.length - 1); // random index of array
         const token = this.notUsedChannels[randomIndex]
